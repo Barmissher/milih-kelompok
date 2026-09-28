@@ -110,9 +110,6 @@
         }
 
         .results-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             margin-bottom: 18px;
         }
 
@@ -200,7 +197,7 @@
 <div class="container">
 
     <div class="header">
-        <h1>🎲 Acak Kelompok</h1>
+        <h1> Acak Kelompok</h1>
         <p>Pembagian kelompok secara random</p>
     </div>
 
@@ -210,6 +207,7 @@
 
             <div class="setting">
                 <label for="jumlahKelompok">Jumlah Kelompok</label>
+
                 <select id="jumlahKelompok">
                     <option value="2">2 Kelompok</option>
                     <option value="3">3 Kelompok</option>
@@ -225,8 +223,10 @@
 
             <div class="setting">
                 <label for="orangPerKelompok">Orang per Kelompok</label>
+
                 <select id="orangPerKelompok">
                     <option value="auto" selected>Otomatis / Seimbang</option>
+                    <option value="1">1 Orang</option>
                     <option value="2">2 Orang</option>
                     <option value="3">3 Orang</option>
                     <option value="4">4 Orang</option>
@@ -234,6 +234,7 @@
                     <option value="6">6 Orang</option>
                     <option value="7">7 Orang</option>
                     <option value="8">8 Orang</option>
+                    <option value="9">9 Orang</option>
                     <option value="10">10 Orang</option>
                 </select>
             </div>
@@ -247,13 +248,15 @@
         <div class="warning" id="warning"></div>
 
         <div class="buttons">
+
             <button class="random-btn" onclick="acakKelompok()">
-                🎲 Acak Kelompok
+                 Acak Kelompok
             </button>
 
             <button class="copy-btn" onclick="salinHasil()">
-                📋 Salin
+                 Salin
             </button>
+
         </div>
 
     </div>
@@ -261,13 +264,15 @@
     <div class="card">
 
         <div class="results-title">
-            <h2>📋 Hasil Pembagian</h2>
+            <h2> Hasil Pembagian</h2>
         </div>
 
         <div id="hasil" class="group-container">
+
             <div class="empty">
                 Tekan tombol "Acak Kelompok" untuk memulai.
             </div>
+
         </div>
 
     </div>
@@ -312,21 +317,36 @@
         "Aura Praja Rizkia"
     ];
 
-    const jumlahKelompok = document.getElementById("jumlahKelompok");
-    const orangPerKelompok = document.getElementById("orangPerKelompok");
-    const hasil = document.getElementById("hasil");
-    const info = document.getElementById("info");
-    const warning = document.getElementById("warning");
+    const jumlahKelompok =
+        document.getElementById("jumlahKelompok");
 
-    info.innerText = `Total siswa: ${siswa.length} orang`;
+    const orangPerKelompok =
+        document.getElementById("orangPerKelompok");
+
+    const hasil =
+        document.getElementById("hasil");
+
+    const info =
+        document.getElementById("info");
+
+    const warning =
+        document.getElementById("warning");
+
+
+    info.innerText =
+        `Total siswa: ${siswa.length} orang`;
 
     function shuffle(array) {
+
         let arr = [...array];
 
         for (let i = arr.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
 
-            [arr[i], arr[j]] = [arr[j], arr[i]];
+            const j =
+                Math.floor(Math.random() * (i + 1));
+
+            [arr[i], arr[j]] =
+                [arr[j], arr[i]];
         }
 
         return arr;
@@ -334,62 +354,89 @@
 
     function acakKelompok() {
 
-        const jumlah = parseInt(jumlahKelompok.value);
-        const ukuran = orangPerKelompok.value;
+        const jumlah =
+            parseInt(jumlahKelompok.value);
 
-        let namaAcak = shuffle(siswa);
+        const ukuran =
+            orangPerKelompok.value;
+
+        const namaAcak =
+            shuffle(siswa);
 
         let kelompok = [];
 
         if (ukuran === "auto") {
 
             for (let i = 0; i < jumlah; i++) {
+
                 kelompok.push([]);
+
             }
 
             namaAcak.forEach((nama, index) => {
+
                 kelompok[index % jumlah].push(nama);
+
             });
 
+            warning.style.display = "none";
+
         }
-          
+
         else {
 
-            const perKelompok = parseInt(ukuran);
+            const perKelompok =
+                parseInt(ukuran);
+
+            const kapasitas =
+                jumlah * perKelompok;
+
 
             for (let i = 0; i < jumlah; i++) {
+
                 kelompok.push([]);
+
             }
+
 
             namaAcak.forEach((nama, index) => {
 
-                const groupIndex = Math.floor(index / perKelompok);
+                const groupIndex =
+                    Math.floor(index / perKelompok);
+
 
                 if (groupIndex < jumlah) {
+
                     kelompok[groupIndex].push(nama);
+
                 }
 
             });
 
-            const kapasitas = jumlah * perKelompok;
-
             if (siswa.length > kapasitas) {
 
-                const sisa = siswa.length - kapasitas;
+                const sisa =
+                    siswa.length - kapasitas;
 
                 warning.style.display = "block";
 
                 warning.innerText =
-                    ` ${sisa} siswa tidak masuk kelompok karena kapasitas hanya ${kapasitas} orang.`;
+                    ` ${sisa} siswa tidak masuk kelompok. ` +
+                    `Kapasitas hanya ${kapasitas} orang.`;
 
-            } else {
+            }
+
+            else {
 
                 warning.style.display = "none";
 
             }
+
         }
 
+
         tampilkanHasil(kelompok);
+
     }
 
 
@@ -397,13 +444,17 @@
 
         hasil.innerHTML = "";
 
+
         kelompok.forEach((anggota, index) => {
 
-            const group = document.createElement("div");
+            const group =
+                document.createElement("div");
 
             group.className = "group";
 
+
             let list = "";
+
 
             anggota.forEach((nama, nomor) => {
 
@@ -415,56 +466,87 @@
 
             });
 
+
             group.innerHTML = `
+
                 <div class="group-header">
+
                     Kelompok ${index + 1}
+
                     <span style="float:right;">
                         ${anggota.length} orang
                     </span>
+
                 </div>
 
                 <ul>
-                    ${list || "<li>-</li>"}
+
+                    ${
+                        list ||
+                        "<li>-</li>"
+                    }
+
                 </ul>
+
             `;
+
 
             hasil.appendChild(group);
 
         });
+
     }
-  
+
     function salinHasil() {
 
-        const groups = document.querySelectorAll(".group");
+        const groups =
+            document.querySelectorAll(".group");
+
 
         if (groups.length === 0) {
 
-            alert("Belum ada hasil untuk disalin.");
+            alert(
+                "Belum ada hasil untuk disalin."
+            );
 
             return;
+
         }
+
 
         let text = "";
 
+
         groups.forEach((group, index) => {
 
-            text += `Kelompok ${index + 1}\n`;
+            text +=
+                `Kelompok ${index + 1}\n`;
 
-            const names = group.querySelectorAll("li");
+
+            const names =
+                group.querySelectorAll("li");
+
 
             names.forEach((li) => {
 
-                text += li.innerText + "\n";
+                text +=
+                    li.innerText + "\n";
 
             });
+
 
             text += "\n";
 
         });
 
+
         navigator.clipboard.writeText(text);
 
-        alert("Hasil berhasil disalin!");
+
+        alert(
+            "Hasil berhasil disalin!"
+        );
+
     }
 
 </script>
