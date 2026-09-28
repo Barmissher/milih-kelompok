@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acak Kelompok</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            padding: 25px 15px;
+            color: #222;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 22px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .settings {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .setting label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            background: white;
+        }
+
+        .info {
+            margin-top: 15px;
+            padding: 12px;
+            background: #f3f4ff;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        button {
+            border: none;
+            border-radius: 10px;
+            padding: 13px 20px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .random-btn {
+            flex: 1;
+            background: #667eea;
+            color: white;
+        }
+
+        .copy-btn {
+            background: #eee;
+            color: #333;
+        }
+
+        .results-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .results-title h2 {
+            font-size: 22px;
+        }
+
+        .group-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .group {
+            border: 2px solid #eee;
+            border-radius: 15px;
+            overflow: hidden;
+            background: #fafafa;
+        }
+
+        .group-header {
+            background: #667eea;
+            color: white;
+            padding: 13px 15px;
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        .group ul {
+            list-style: none;
+            padding: 10px 15px 15px;
+        }
+
+        .group li {
+            padding: 9px 5px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        .group li:last-child {
+            border-bottom: none;
+        }
+
+        .empty {
+            text-align: center;
+            color: #777;
+            padding: 30px 10px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 12px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px 10px;
+            }
+
+            .header h1 {
+                font-size: 26px;
+            }
+
+            .settings {
+                grid-template-columns: 1fr;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .group-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>🎲 Acak Kelompok</h1>
+        <p>Pembagian kelompok secara random</p>
+    </div>
+
+    <div class="card">
+
+        <div class="settings">
+
+            <div class="setting">
+                <label for="jumlahKelompok">Jumlah Kelompok</label>
+                <select id="jumlahKelompok">
+                    <option value="2">2 Kelompok</option>
+                    <option value="3">3 Kelompok</option>
+                    <option value="4">4 Kelompok</option>
+                    <option value="5">5 Kelompok</option>
+                    <option value="6" selected>6 Kelompok</option>
+                    <option value="7">7 Kelompok</option>
+                    <option value="8">8 Kelompok</option>
+                    <option value="9">9 Kelompok</option>
+                    <option value="10">10 Kelompok</option>
+                </select>
+            </div>
+
+            <div class="setting">
+                <label for="orangPerKelompok">Orang per Kelompok</label>
+                <select id="orangPerKelompok">
+                    <option value="auto" selected>Otomatis / Seimbang</option>
+                    <option value="2">2 Orang</option>
+                    <option value="3">3 Orang</option>
+                    <option value="4">4 Orang</option>
+                    <option value="5">5 Orang</option>
+                    <option value="6">6 Orang</option>
+                    <option value="7">7 Orang</option>
+                    <option value="8">8 Orang</option>
+                    <option value="10">10 Orang</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="info" id="info">
+            Total siswa: 27 orang
+        </div>
+
+        <div class="warning" id="warning"></div>
+
+        <div class="buttons">
+            <button class="random-btn" onclick="acakKelompok()">
+                🎲 Acak Kelompok
+            </button>
+
+            <button class="copy-btn" onclick="salinHasil()">
+                📋 Salin
+            </button>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="results-title">
+            <h2>📋 Hasil Pembagian</h2>
+        </div>
+
+        <div id="hasil" class="group-container">
+            <div class="empty">
+                Tekan tombol "Acak Kelompok" untuk memulai.
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const siswa = [
+        "Thalita Febya Kezia",
+        "Fasya Indra Pratama",
+        "Edo Saputra",
+        "Rahma Fadhila",
+
+        "Muhammad Indra Mukti",
+        "Putri Camelia Sari",
+        "Talita Salsabila",
+        "Akbar Firmansah",
+
+        "Dhika Valentino Lumban Tobing",
+        "Muhammad Ibrohim",
+        "Rayhan Arifin Hidayat",
+        "Nadira Zahwa Putri Nopia",
+
+        "Muhammad Khadafi",
+        "Amar Gusti Prabu",
+        "David Evodie Tobing",
+        "Tiara LukytaSari",
+        "Mullah Omar Afgan T",
+
+        "Nathan Syifa",
+        "Fenlinis Waruwu",
+        "Raditya Futra Anggoro",
+        "Muhammad Faishal",
+        "Muhammad Raffi Azmi",
+
+        "Gloria Ckrista Bela",
+        "Fattah Tammam Fikri",
+        "Muhamad Fariz Arfandi",
+        "M. Farrel",
+        "Aura Praja Rizkia"
+    ];
+
+    const jumlahKelompok = document.getElementById("jumlahKelompok");
+    const orangPerKelompok = document.getElementById("orangPerKelompok");
+    const hasil = document.getElementById("hasil");
+    const info = document.getElementById("info");
+    const warning = document.getElementById("warning");
+
+    info.innerText = `Total siswa: ${siswa.length} orang`;
+
+    function shuffle(array) {
+        let arr = [...array];
+
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+
+        return arr;
+    }
+
+    function acakKelompok() {
+
+        const jumlah = parseInt(jumlahKelompok.value);
+        const ukuran = orangPerKelompok.value;
+
+        let namaAcak = shuffle(siswa);
+
+        let kelompok = [];
+
+        if (ukuran === "auto") {
+
+            for (let i = 0; i < jumlah; i++) {
+                kelompok.push([]);
+            }
+
+            namaAcak.forEach((nama, index) => {
+                kelompok[index % jumlah].push(nama);
+            });
+
+        }
+          
+        else {
+
+            const perKelompok = parseInt(ukuran);
+
+            for (let i = 0; i < jumlah; i++) {
+                kelompok.push([]);
+            }
+
+            namaAcak.forEach((nama, index) => {
+
+                const groupIndex = Math.floor(index / perKelompok);
+
+                if (groupIndex < jumlah) {
+                    kelompok[groupIndex].push(nama);
+                }
+
+            });
+
+            const kapasitas = jumlah * perKelompok;
+
+            if (siswa.length > kapasitas) {
+
+                const sisa = siswa.length - kapasitas;
+
+                warning.style.display = "block";
+
+                warning.innerText =
+                    ` ${sisa} siswa tidak masuk kelompok karena kapasitas hanya ${kapasitas} orang.`;
+
+            } else {
+
+                warning.style.display = "none";
+
+            }
+        }
+
+        tampilkanHasil(kelompok);
+    }
+
+
+    function tampilkanHasil(kelompok) {
+
+        hasil.innerHTML = "";
+
+        kelompok.forEach((anggota, index) => {
+
+            const group = document.createElement("div");
+
+            group.className = "group";
+
+            let list = "";
+
+            anggota.forEach((nama, nomor) => {
+
+                list += `
+                    <li>
+                        ${nomor + 1}. ${nama}
+                    </li>
+                `;
+
+            });
+
+            group.innerHTML = `
+                <div class="group-header">
+                    Kelompok ${index + 1}
+                    <span style="float:right;">
+                        ${anggota.length} orang
+                    </span>
+                </div>
+
+                <ul>
+                    ${list || "<li>-</li>"}
+                </ul>
+            `;
+
+            hasil.appendChild(group);
+
+        });
+    }
+  
+    function salinHasil() {
+
+        const groups = document.querySelectorAll(".group");
+
+        if (groups.length === 0) {
+
+            alert("Belum ada hasil untuk disalin.");
+
+            return;
+        }
+
+        let text = "";
+
+        groups.forEach((group, index) => {
+
+            text += `Kelompok ${index + 1}\n`;
+
+            const names = group.querySelectorAll("li");
+
+            names.forEach((li) => {
+
+                text += li.innerText + "\n";
+
+            });
+
+            text += "\n";
+
+        });
+
+        navigator.clipboard.writeText(text);
+
+        alert("Hasil berhasil disalin!");
+    }
+
+</script>
+
+</body>
+</html>
